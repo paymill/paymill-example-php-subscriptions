@@ -1,0 +1,19 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+app/config/config_dev.yml
+app/config/config_prod.yml
+composer.lock
+
+# TestUnit generated reports
+report/*

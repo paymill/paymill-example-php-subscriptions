@@ -1,0 +1,8 @@
+{
+    "name": "paymill/llama kisses",
+    "require": {
+        "monolog/monolog": "1.7.*",
+        "paymill/paymill": "3.0.*",
+        "twbs/bootstrap": "3.0.*"
+    }
+}

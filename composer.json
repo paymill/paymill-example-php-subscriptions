@@ -1,8 +1,14 @@
 {
-    "name": "paymill/llama kisses",
+    "name": "paymill/llama-kisses",
+    "autoload": {
+        "psr-0": {
+          "LlamaKisses": "src/Paymill"
+        }
+    },
     "require": {
         "monolog/monolog": "1.7.*",
         "paymill/paymill": "3.0.*",
-        "twbs/bootstrap": "3.0.*"
+        "twbs/bootstrap": "3.0.*",
+        "twig/twig": "1.14.*"
     }
 }

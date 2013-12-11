@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'application/head.html' %}
+  <body>
+    <div id="wrap">
+      {% include 'application/navigation.html' %}
+      {{ yield|raw }}
+    </div>
+    {% include 'application/footer.html' %}
+  </body>
+</html>

@@ -2,7 +2,7 @@
 
 namespace LlamaKisses\ClassLoader;
 
-class AppLoader {
+class ApplicationLoader {
 
   private $controller;
   private $action;
@@ -12,7 +12,7 @@ class AppLoader {
   public function __construct($urlvalues) {
     $this->urlvalues = $urlvalues;
     if ($this->urlvalues['controller'] == "") {
-      $this->controller = 'LlamaKisses\Controllers\Home\Controller';
+      $this->controller = 'LlamaKisses\Controllers\Pages\Controller';
     } else {
       $this->controller = 'LlamaKisses\Controllers\\'.ucwords($this->urlvalues['controller']).'Controller';
     }
@@ -29,7 +29,7 @@ class AppLoader {
     if (class_exists($this->controller)) {
       $parents = class_parents($this->controller);
       //does the class extend the controller class?
-      if (in_array("LlamaKisses\Controllers\BaseController", $parents)) {
+      if (in_array("LlamaKisses\Controllers\ApplicationController", $parents)) {
         //does the class contain the requested method?
         if (method_exists($this->controller,$this->action)) {
           return new $this->controller($this->action, $this->urlvalues, $twig);

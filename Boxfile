@@ -1,0 +1,13 @@
+global:
+  env:
+    - ENV: production
+
+web1:
+  php_version: 5.4.22
+  document_root: public
+  php_extensions:
+    - intl
+    - zip
+  after_build:
+    - "curl -s https://getcomposer.org/installer | php"
+    - "php composer.phar install"

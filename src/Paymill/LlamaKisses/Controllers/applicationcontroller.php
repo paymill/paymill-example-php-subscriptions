@@ -20,7 +20,8 @@ abstract class ApplicationController {
   }
 
   protected function ReturnView($model = array()) {
-    $template = $this->twig->loadTemplate('layouts/application.html');
-    echo $template->render(array('yield' => $this->twig->render($_GET['controller'].'/'.$this->action.'.html', $model )));
+    $yield = $this->twig->render($_GET['controller'].'/'.$this->action.'.html', $model );
+    $template = $this->twig->loadTemplate('layouts/application.html' );
+    echo $template->render(array( 'yield' => $yield, 'current_user' => $_SESSION['current_user'] ) );
   }
 }

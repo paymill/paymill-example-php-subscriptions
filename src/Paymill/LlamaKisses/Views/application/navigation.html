@@ -12,19 +12,23 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="/index.php?controller=pages&action=index">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <form accept-charset="UTF-8" action="/index.php?controller=users&action=login" class="navbar-form navbar-right" role="form" method="post">
-        <div class="form-group">
-          <input type="text" placeholder="Email" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="password" placeholder="Password" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Sign in</button>
-      </form>
+      {% if current_user is null %}
+        <form accept-charset="UTF-8" action="/index.php?controller=users&action=login" class="navbar-form navbar-right" role="form" method="post">
+          <div class="form-group">
+            <input type="text" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+      {% else %}
+        <a href="/index.php?controller=users&action=logout" class="btn btn-success navbar-right" style="margin-top: 8px;">Log Out</a>
+      {% endif %}
     </div><!--/.nav-collapse -->
   </div>
 </div>

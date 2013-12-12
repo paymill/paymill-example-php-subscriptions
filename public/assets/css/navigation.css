@@ -3,7 +3,6 @@
   margin-right: -15px !important;
 }
 
-
 .panel
 {
     text-align: center;
@@ -106,4 +105,8 @@
     font-size: 0.95em;
     font-weight: bold;
     text-align: center;
+}
+
+.container .row .form-control {
+  margin-bottom: 10px
 }

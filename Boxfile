@@ -4,9 +4,6 @@ global:
 
 web1:
   php_version: 5.4.14
-  php_extensions:
-    - intl
-    - zip
   after_build:
     - "curl -s https://getcomposer.org/installer | php"
     - "php composer.phar install"

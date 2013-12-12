@@ -4,7 +4,6 @@ global:
 
 web1:
   php_version: 5.4.14
-  document_root: public
   php_extensions:
     - intl
     - zip

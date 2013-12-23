@@ -3,8 +3,10 @@
 namespace LlamaKisses\Models;
 
 abstract class Base {
-  protected $database;
+  var $db;
+
   public function __construct() {
-    // $this->database = new PDO("mysql:host=localhost;dbname=test", "username", "password");
+    $this->db = mysqli_connect( "localhost", "root", "root" );
+    mysqli_select_db( $this->db, 'llama-kisses' );
   }
 }

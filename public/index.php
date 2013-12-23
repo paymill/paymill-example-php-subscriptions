@@ -2,6 +2,15 @@
 session_start();
 
 require_once __DIR__.'/../vendor/autoload.php';
+include __DIR__.'/../scripts/seeds.php';
+
+use Monolog\Logger;
+
+$log = new Logger( 'LLAMA_KISSES::MAIN' );
+
+$link = create_database( $log );
+seed_database( $log, $link );
+mysqli_close( $link );
 
 use LlamaKisses\ClassLoader\ApplicationLoader;
 

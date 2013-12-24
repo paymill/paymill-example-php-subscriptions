@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once __DIR__.'/../vendor/autoload.php';
-include __DIR__.'/../scripts/seeds.php';
+require_once __DIR__.'/vendor/autoload.php';
+include __DIR__.'/scripts/seeds.php';
 
 use Monolog\Logger;
 
@@ -14,8 +14,8 @@ mysqli_close( $link );
 
 use LlamaKisses\ClassLoader\ApplicationLoader;
 
-$twigLoader = new Twig_Loader_Filesystem( '../src/Paymill/LlamaKisses/Views/' );
-$twig = new Twig_Environment( $twigLoader, array( 'cache' => './cache', 'debug' => true ) );
+$twigLoader = new Twig_Loader_Filesystem( 'src/Paymill/LlamaKisses/Views/' );
+$twig = new Twig_Environment( $twigLoader, array( 'cache' => 'cache', 'debug' => true ) );
 
 //create the controller and execute the action
 $appLoader = new ApplicationLoader($_GET);

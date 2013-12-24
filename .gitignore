@@ -3,8 +3,8 @@ app/bootstrap*
 
 # Symfony directories
 vendor/*
-*/logs/*
-*/cache/*
+logs/*
+cache/*
 web/uploads/*
 web/bundles/*
 

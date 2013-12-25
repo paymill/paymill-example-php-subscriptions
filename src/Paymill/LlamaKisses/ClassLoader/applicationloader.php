@@ -12,7 +12,7 @@ class ApplicationLoader {
   public function __construct($urlvalues) {
     $this->urlvalues = $urlvalues;
     if ($this->urlvalues['controller'] == "") {
-      $this->controller = 'LlamaKisses\Controllers\Pages\Controller';
+      $this->controller = 'LlamaKisses\Controllers\PagesController';
     } else {
       $this->controller = 'LlamaKisses\Controllers\\'.ucwords($this->urlvalues['controller']).'Controller';
     }

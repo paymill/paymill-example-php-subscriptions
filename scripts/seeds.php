@@ -1,7 +1,7 @@
 <?php
 
 function create_database( $log ) {
-  $link = mysqli_connect( "llama-kisses.mysql.eu1.frbit.com", "llama-kisses", "FeqXTVLQXHtLWmx6" );
+  $link = mysqli_connect( "127.0.0.1", "root", "root" );
   if( !mysqli_select_db( $link, 'llama-kisses' ) ) {
     $log->addInfo( "Creating database..." );
     mysqli_query( $link, "CREATE SCHEMA `llama-kisses`" );

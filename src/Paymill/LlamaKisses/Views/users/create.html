@@ -8,7 +8,7 @@
           <li class="alert alert-danger" style="list-style-type: none; padding: 5px;">{{ error }}</li>
         {% endfor %}
       </ul>
-      <form action="/index.php?controller=users&action=create" method="post" class="form" role="form">
+      <form action="index.php?controller=users&action=create" method="post" class="form" role="form">
         <input class="form-control" name="user[email]" value="{{ email }}" placeholder="Your Email *" type="email" />
         <input class="form-control" name="user[password]" placeholder="New Password *" type="password" />
         <input class="form-control" name="user[password_confirmation]" placeholder="Re-enter password *" type="password" />

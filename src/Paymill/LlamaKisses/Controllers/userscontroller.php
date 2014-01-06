@@ -19,15 +19,15 @@ class UsersController extends ApplicationController {
   }
 
   protected function login() {
-    $_SESSION['current_user'] = 1;
-    $this->ReturnView();
+    $user = User::findByCredentials( $_POST['user']['email'], $_POST['user']['password'] );
+    $_SESSION['current_user'] = $user->getId();
+    $this->ReturnView( $user->toArray() );
   }
 
   protected function create() {
     $user = new User( $_POST['user'] );
-    if( $user->getErrors() != null ) {
-      $_SESSION['current_user'] = null;
-    } else {
+    if( $user->getErrors() == null ) {
+      $user->create();
       $_SESSION['current_user'] = $user->getId();
     }
     $this->ReturnView( $user->toArray() );

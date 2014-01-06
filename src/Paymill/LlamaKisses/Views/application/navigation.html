@@ -19,10 +19,10 @@
       {% if current_user is null %}
         <form accept-charset="UTF-8" action="index.php?controller=users&action=login" class="navbar-form navbar-right" role="form" method="post">
           <div class="form-group">
-            <input type="text" placeholder="Email" class="form-control">
+            <input type="text" name="user[email]" placeholder="Email" class="form-control">
           </div>
           <div class="form-group">
-            <input type="password" placeholder="Password" class="form-control">
+            <input type="password" name="user[password]" placeholder="Password" class="form-control">
           </div>
           <button type="submit" class="btn btn-success">Sign in</button>
         </form>

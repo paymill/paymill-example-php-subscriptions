@@ -1,0 +1,4 @@
+{% if errors is not null %}
+  <div class="alert alert-danger" style="padding: 10px; margin: 40px 5px 10px 5px;">{{ errors|first }}</div>
+{% endif %}
+{% include 'pages/index.html' %}

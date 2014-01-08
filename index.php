@@ -4,20 +4,6 @@ session_start();
 require_once 'vendor/autoload.php';
 require_once 'scripts/seeds.php';
 
-include 'src/Paymill/LlamaKisses/ClassLoader/applicationloader.php';
-
-include 'src/Paymill/LlamaKisses/Controllers/applicationcontroller.php';
-include 'src/Paymill/LlamaKisses/Controllers/cardscontroller.php';
-include 'src/Paymill/LlamaKisses/Controllers/pagescontroller.php';
-include 'src/Paymill/LlamaKisses/Controllers/subscriptionscontroller.php';
-include 'src/Paymill/LlamaKisses/Controllers/userscontroller.php';
-
-include 'src/Paymill/LlamaKisses/Models/base.php';
-include 'src/Paymill/LlamaKisses/Models/card.php';
-include 'src/Paymill/LlamaKisses/Models/offer.php';
-include 'src/Paymill/LlamaKisses/Models/subscription.php';
-include 'src/Paymill/LlamaKisses/Models/user.php';
-
 use Monolog\Logger;
 use LlamaKisses\ClassLoader\ApplicationLoader;
 
@@ -33,5 +19,8 @@ $twig = new Twig_Environment( $twigLoader, array( 'cache' => 'cache', 'debug' =>
 //create the controller and execute the action
 $appLoader = new ApplicationLoader($_GET);
 $controller = $appLoader->CreateController($twig);
-$controller->ExecuteAction();
-
+if( is_string( $controller ) == false ) {
+  $controller->ExecuteAction();
+} else {
+  echo $controller;
+}

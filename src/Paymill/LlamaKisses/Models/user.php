@@ -2,6 +2,9 @@
 
 namespace LlamaKisses\Models;
 
+use Monolog\Logger;
+use Paymill\Models\Request\Client;
+
 class User extends Base {
 
   private $id;
@@ -9,7 +12,29 @@ class User extends Base {
   private $password;
   private $name;
   private $paymillId;
+  private $offerId;
   private $errors;
+  private $cards;
+  private $subscriptions;
+
+  private $log;
+
+  public static function findById( $id ) {
+    $user = new User();
+    $result = mysqli_query( $user->db, "SELECT * FROM `users` u WHERE u.id LIKE '$id'" );
+    if( mysqli_num_rows( $result ) == 1 ) {
+        $row = mysqli_fetch_array( $result );
+        $user->id = $row['id'];
+        $user->email = $row['email'];
+        $user->password = $row['password'];
+        $user->name = $row['name'];
+        $user->paymillId = $row['paymill_id'];
+        $user->offerId = $row['offer_id'];
+    }
+    $user->findAllCards();
+    $user->findAllSubscriptions();
+    return $user;
+  }
 
   public static function findByCredentials( $email, $password ) {
     $user = new User();
@@ -21,14 +46,18 @@ class User extends Base {
         $user->password = $row['password'];
         $user->name = $row['name'];
         $user->paymillId = $row['paymill_id'];
+        $user->offerId = $row['offer_id'];
     } else {
       $user->errors['email'] = "Email or password did not match";
     }
+    $user->findAllCards();
+    $user->findAllSubscriptions();
     return $user;
   }
 
   public function __construct( $params = null ) {
     parent::__construct();
+    $this->log = new Logger( 'LLAMA_KISSES::User' );
     if( $params != null ) {
       if( $params['password'] !== $params['password_confirmation'] ) {
         $this->errors['password'] = "Password didn't match";
@@ -45,6 +74,7 @@ class User extends Base {
       $this->email = $params['email'];
       $this->password = $params['password'];
       $this->name = $params['name'];
+      $this->offerId = $params['offer_id'];
 
       $result = mysqli_query( $this->db, "SELECT id FROM `users` u WHERE u.email LIKE '$this->email'" );
       if( mysqli_num_rows( $result ) > 0 ) {
@@ -54,13 +84,26 @@ class User extends Base {
   }
 
   public function create() {
-    mysqli_query( $this->db, "INSERT INTO `users`( `email`, `password`, `name` ) VALUES( '$this->email', '$this->password', '$this->name' )" );
+    $client = new Client();
+    $client->setEmail( $this->email );
+    $id = $this->request->create( $client )->getId();
+    $this->log->addInfo( $id );
+
+    mysqli_query( $this->db, "INSERT INTO `users`( `email`, `password`, `name`, `paymill_id`, `offer_id` ) VALUES( '$this->email', '$this->password', '$this->name', '$id', '$this->offerId' )" );
     $this->id = $this->db->insert_id;
     mysqli_close( $this->db );
   }
 
   public function getId() {
     return $this->id;
+  }
+
+  public function getOfferId() {
+    return $this->offerId;
+  }
+
+  public function getPaymillId() {
+    return $this->paymillId;
   }
 
   public function getErrors() {
@@ -73,8 +116,42 @@ class User extends Base {
     $params['email'] = $this->email;
     $params['name'] = $this->name;
     $params['paymill_id'] = $this->paymillId;
+    $params['offer_id'] = $this->offerId;
+    $params['cards'] = $this->cards;
+    $params['subscription'] = $this->subscription;
     $params['errors'] = $this->errors;
     return $params;
+  }
+
+  private function findAllCards() {
+    $client = new Client();
+    $client->setId( $this->paymillId );
+    $response = $this->request->getOne( $client );
+
+    $this->cards = array();
+    foreach( $response->getPayment() as $payment ) {
+      $card = new Card();
+      $card->setType( $payment->getType() );
+      $card->setCardHolder( $payment->getCardHolder() );
+      $card->setCardType( $payment->getCardType() );
+      $card->setLastFour( $payment->getLastFour() );
+      $card->setExpirationDate( $payment->getExpireMonth() . '/' . $payment->getExpireYear() );
+      $card->setPaymillId( $payment->getId() );
+      array_push( $this->cards, $card );
+    }
+  }
+
+  private function findAllSubscriptions() {
+    $client = new Client();
+    $client->setId( $this->paymillId );
+    $response = $this->request->getOne( $client );
+
+    foreach( $response->getSubscription() as $subscription ) {
+      $this->subscription = new Subscription();
+      $this->subscription->setOffer( $subscription->getOffer()->getId() );
+      $this->subscription->setPayment( $subscription->getPayment()->getId() );
+      $this->subscription->setPaymillId( $subscription->getId() );
+    }
   }
 
 }

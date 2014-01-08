@@ -2,16 +2,30 @@
 
 namespace LlamaKisses\Models;
 
-class Offer {
+class Offer extends Base {
 
   private $id;
   private $name;
   private $paymillId;
-  private $subscriptions;
 
+  public static function findById( $id ) {
+    $offer = new Offer();
+    $result = mysqli_query( $offer->db, "SELECT * FROM `offers` o WHERE o.id LIKE '$id'" );
+    if( mysqli_num_rows( $result ) == 1 ) {
+        $row = mysqli_fetch_array( $result );
+        $offer->id = $row['id'];
+        $offer->name = $row['name'];
+        $offer->paymillId = $row['paymill_id'];
+    }
+    return $offer;
+  }
 
-  public function Index() {
-    return array("John", "James", "Rambo");
+  public function __construct( $params = null ) {
+    parent::__construct();
+  }
+
+  public function getPaymillId() {
+    return $this->paymillId;
   }
 
 }

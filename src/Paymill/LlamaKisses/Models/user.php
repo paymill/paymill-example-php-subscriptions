@@ -15,7 +15,7 @@ class User extends Base {
   private $offerId;
   private $errors;
   private $cards;
-  private $subscriptions;
+  private $subscription;
 
   private $log;
 
@@ -30,9 +30,9 @@ class User extends Base {
         $user->name = $row['name'];
         $user->paymillId = $row['paymill_id'];
         $user->offerId = $row['offer_id'];
+        $user->findAllCards();
+        $user->findAllSubscriptions();
     }
-    $user->findAllCards();
-    $user->findAllSubscriptions();
     return $user;
   }
 
@@ -47,11 +47,11 @@ class User extends Base {
         $user->name = $row['name'];
         $user->paymillId = $row['paymill_id'];
         $user->offerId = $row['offer_id'];
+        $user->findAllCards();
+        $user->findAllSubscriptions();
     } else {
       $user->errors['email'] = "Email or password did not match";
     }
-    $user->findAllCards();
-    $user->findAllSubscriptions();
     return $user;
   }
 
@@ -146,11 +146,13 @@ class User extends Base {
     $client->setId( $this->paymillId );
     $response = $this->request->getOne( $client );
 
-    foreach( $response->getSubscription() as $subscription ) {
-      $this->subscription = new Subscription();
-      $this->subscription->setOffer( $subscription->getOffer()->getId() );
-      $this->subscription->setPayment( $subscription->getPayment()->getId() );
-      $this->subscription->setPaymillId( $subscription->getId() );
+    if( $response->getSubscription() != null ) {
+      foreach( $response->getSubscription() as $subscription ) {
+        $this->subscription = new Subscription();
+        $this->subscription->setOffer( $subscription->getOffer()->getId() );
+        $this->subscription->setPayment( $subscription->getPayment()->getId() );
+        $this->subscription->setPaymillId( $subscription->getId() );
+      }
     }
   }
 

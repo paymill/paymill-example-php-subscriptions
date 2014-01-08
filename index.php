@@ -1,12 +1,25 @@
 <?php
 session_start();
 
-require_once __DIR__.'/vendor/autoload.php';
-include __DIR__.'/scripts/seeds.php';
+require_once 'vendor/autoload.php';
+require_once 'scripts/seeds.php';
+
+include 'src/Paymill/LlamaKisses/ClassLoader/applicationloader.php';
+
+include 'src/Paymill/LlamaKisses/Controllers/applicationcontroller.php';
+include 'src/Paymill/LlamaKisses/Controllers/cardscontroller.php';
+include 'src/Paymill/LlamaKisses/Controllers/pagescontroller.php';
+include 'src/Paymill/LlamaKisses/Controllers/subscriptionscontroller.php';
+include 'src/Paymill/LlamaKisses/Controllers/userscontroller.php';
+
+include 'src/Paymill/LlamaKisses/Models/base.php';
+include 'src/Paymill/LlamaKisses/Models/card.php';
+include 'src/Paymill/LlamaKisses/Models/offer.php';
+include 'src/Paymill/LlamaKisses/Models/subscription.php';
+include 'src/Paymill/LlamaKisses/Models/user.php';
 
 use Monolog\Logger;
 use LlamaKisses\ClassLoader\ApplicationLoader;
-
 
 $log = new Logger( 'LLAMA_KISSES::MAIN' );
 

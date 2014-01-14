@@ -26,9 +26,13 @@ abstract class ApplicationController {
 
   protected function ReturnView( $model = array() ) {
     $this->log->addInfo( "Current user: " . $_SESSION['current_user'] );
-
     $model['current_user'] = $_SESSION['current_user'];
-    $yield = $this->twig->render( $_GET['controller'].'/'.$this->action.'.html', $model );
+
+    $yield = null;
+    if( $_GET['controller'] == null )
+      $yield = $this->twig->render( "pages".'/'.$this->action.'.html', $model );
+    else
+      $yield = $this->twig->render( strtolower( $_GET['controller'] ).'/'.$this->action.'.html', $model );
 
     $template = $this->twig->loadTemplate( 'layouts/application.html' );
     if( array_key_exists( 'name', $model ) ) {

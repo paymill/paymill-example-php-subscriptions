@@ -148,10 +148,12 @@ class User extends Base {
 
     if( $response->getSubscription() != null ) {
       foreach( $response->getSubscription() as $subscription ) {
-        $this->subscription = new Subscription();
-        $this->subscription->setOffer( $subscription->getOffer()->getId() );
-        $this->subscription->setPayment( $subscription->getPayment()->getId() );
-        $this->subscription->setPaymillId( $subscription->getId() );
+        if( $subscription->getCanceledAt() == null && $subscription->getPayment() != null ) {
+          $this->subscription = new Subscription();
+          $this->subscription->setOffer( $subscription->getOffer()->getId() );
+          $this->subscription->setPayment( $subscription->getPayment()->getId() );
+          $this->subscription->setPaymillId( $subscription->getId() );
+        }
       }
     }
   }

@@ -1,5 +1,4 @@
 <div class="container" style="padding: 0px 5px 0px;">
-
   {% if subscription is not null %}
     {% if card.paymillId != subscription.payment %}
       <div class="alert alert-success">
@@ -85,22 +84,26 @@
             <div class="col-xs-3 col-md-3 text-center">
               {% if subscription is not null %}
                 {% if card.paymillId == subscription.payment %}
-                <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                <a class="llama-tooltip" href="index.php?controller=subscriptions&action=delete&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="click to unsubscribe">
+                  <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                </a>
                 {% else %}
                 <a class="llama-tooltip" href="index.php?controller=subscriptions&action=update&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="change credit card">
                   <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
                 </a>
                 {% endif %}
               {% else %}
-              <a class="llama-tooltip" href="index.php?controller=subscriptions&action=create&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="click here to subscribe">
+              <a class="llama-tooltip" href="index.php?controller=subscriptions&action=create&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="click to subscribe">
                 <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
               </a>
               {% endif %}
             </div>
             <div class="col-xs-9 col-md-9 section-box">
-              <a class="llama-tooltip pull-right" href="index.php?controller=cards&action=destroy&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="delete card" style="color: #000000">
-                <i class="glyphicon glyphicon-remove"></i>
-              </a>
+              {% if( subscription is null or card.paymillId != subscription.payment ) %}
+                <a class="llama-tooltip pull-right" href="index.php?controller=cards&action=destroy&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="delete card" style="color: #000000">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </a>
+              {% endif %}
               <h2 style="margin-top: 0px;">
                 <span>{{ card.cardHolder }}</span>
                 <span><img src="assets/images/32x20_{{ card.cardType }}.png" alt="{{ card.cardType }}"></span>

@@ -21,7 +21,15 @@ class SubscriptionsController extends ApplicationController {
   }
 
   protected function update() {
-    var_dump( $_GET );
+    $subscription = new Subscription( $_GET['payment_id'] );
+    $subscription->update( $_GET['subscription_id'] );
+    $this->ReturnView();
+  }
+
+  protected function delete() {
+    $subscription = new Subscription( $_GET['payment_id'] );
+    $subscription->delete( $_GET['subscription_id'] );
+    $this->ReturnView();
   }
 
 }

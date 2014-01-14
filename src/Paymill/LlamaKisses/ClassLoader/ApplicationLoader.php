@@ -13,7 +13,7 @@ class ApplicationLoader {
     if ($this->urlvalues['controller'] == "") {
       $this->controller = 'LlamaKisses\Controllers\PagesController';
     } else {
-      $this->controller = 'LlamaKisses\Controllers\\'.ucwords($this->urlvalues['controller']).'Controller';
+      $this->controller = 'LlamaKisses\Controllers\\'.ucwords( $this->urlvalues['controller'] ).'Controller';
     }
     if ($this->urlvalues['action'] == "") {
       $this->action = "index";

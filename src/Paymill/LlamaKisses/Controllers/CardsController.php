@@ -17,6 +17,7 @@ class CardsController extends ApplicationController {
   protected function create() {
     $card = new Card( $_POST['card'] );
     $card->create();
+    $card->verify( $_POST['amount'], $_POST['currency'] );
     $this->ReturnView();
   }
 

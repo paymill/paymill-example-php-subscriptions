@@ -4,6 +4,7 @@ namespace LlamaKisses\Models;
 
 use Monolog\Logger;
 use Paymill\Models\Request\Payment;
+use Paymill\Models\Request\Preauthorization;
 
 class Card extends Base {
 
@@ -28,7 +29,20 @@ class Card extends Base {
   }
 
   public function create() {
-    $this->request->create( $this->payment );
+    $this->paymillId = $this->request->create( $this->payment )->getId();
+  }
+
+  public function verify( $amount, $currency ) {
+    $preAuth = new Preauthorization();
+    $preAuth->setPayment( $this->paymillId )
+            ->setAmount( $amount )
+            ->setCurrency( $currency );
+
+    $response = $this->request->create( $preAuth );
+
+    $preAuth = new Preauthorization();
+    $preAuth->setId( $response->getId() );
+    $this->request->delete( $preAuth );
   }
 
   public function destroy() {

@@ -1,5 +1,6 @@
 {
     "name": "paymill/llama-kisses",
+    "version": "1.0.0",
     "autoload": {
         "psr-0": {
           "LlamaKisses": "src/Paymill"
@@ -9,6 +10,6 @@
         "monolog/monolog": "1.7.*",
         "paymill/paymill": "3.0.*",
         "twbs/bootstrap": "3.0.*",
-        "twig/twig": "1.14.*"
+        "twig/twig": "1.15.*"
     }
 }

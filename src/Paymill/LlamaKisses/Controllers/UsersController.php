@@ -19,6 +19,7 @@ class UsersController extends ApplicationController {
   }
 
   protected function login() {
+    $this->log->addInfo( 'Logging in as '.$_POST['user']['email'] );
     $user = User::findByCredentials( $_POST['user']['email'], $_POST['user']['password'] );
     $_SESSION['current_user'] = $user->getId();
     $this->ReturnView( $user->toArray() );

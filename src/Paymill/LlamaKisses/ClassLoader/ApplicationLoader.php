@@ -2,20 +2,26 @@
 
 namespace LlamaKisses\ClassLoader;
 
+use Monolog\Logger;
+
 class ApplicationLoader {
 
   private $controller;
   private $action;
   private $urlvalues;
 
+  private $log;
+
   public function __construct( $urlvalues ) {
-    $this->urlvalues = ( isset( $urlvalues ) == false ) ? $urlvalues : null;
-    if ($this->urlvalues['controller'] == "") {
+    $this->log = new Logger( 'LLAMA_KISSES::ApplicationLoader' );
+    $this->log->addInfo( 'Try to execute controller: '.$urlvalues['controller'].' with action: '.$urlvalues['action'] );
+    $this->urlvalues = $urlvalues;
+    if( $this->urlvalues['controller'] == "" ) {
       $this->controller = 'LlamaKisses\Controllers\PagesController';
     } else {
       $this->controller = 'LlamaKisses\Controllers\\'.ucwords( $this->urlvalues['controller'] ).'Controller';
     }
-    if ($this->urlvalues['action'] == "") {
+    if( $this->urlvalues['action'] == "" ) {
       $this->action = "index";
     } else {
       $this->action = $this->urlvalues['action'];

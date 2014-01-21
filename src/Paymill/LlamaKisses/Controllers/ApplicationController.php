@@ -25,20 +25,22 @@ abstract class ApplicationController {
   }
 
   protected function ReturnView( $model = array() ) {
-    $this->log->addInfo( "Current user: " . $_SESSION['current_user'] );
-    $model['current_user'] = $_SESSION['current_user'];
+    $current_user = isset( $_SESSION['current_user'] ) ? $_SESSION['current_user'] : null;
+    $this->log->addInfo( "Current user: " . $current_user );
+    $model['current_user'] = $current_user;
 
     $yield = null;
-    if( $_GET['controller'] == null )
+    if( isset( $_GET['controller'] ) == false )
       $yield = $this->twig->render( "pages".'/'.$this->action.'.html', $model );
     else
       $yield = $this->twig->render( strtolower( $_GET['controller'] ).'/'.$this->action.'.html', $model );
 
     $template = $this->twig->loadTemplate( 'layouts/application.html' );
+
     if( array_key_exists( 'name', $model ) ) {
-      echo $template->render( array( 'yield' => $yield, 'current_user' => $_SESSION['current_user'], 'current_user_name' => $model['name'] ) );
+      echo $template->render( array( 'yield' => $yield, 'current_user' => $current_user, 'current_user_name' => $model['name'] ) );
     } else {
-      echo $template->render( array( 'yield' => $yield, 'current_user' => $_SESSION['current_user'] ) );
+      echo $template->render( array( 'yield' => $yield, 'current_user' => $current_user ) );
     }
   }
 }

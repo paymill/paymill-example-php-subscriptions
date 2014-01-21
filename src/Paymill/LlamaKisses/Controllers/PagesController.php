@@ -7,7 +7,8 @@ use LlamaKisses\Models\User;
 class PagesController extends ApplicationController {
 
   protected function index() {
-    $user = User::findById( $_SESSION['current_user'] );
+    $current_user = isset( $_SESSION['current_user'] ) ? $_SESSION['current_user'] : "";
+    $user = User::findById( $current_user );
     $this->ReturnView( $user->toArray() );
   }
 

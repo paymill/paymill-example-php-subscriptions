@@ -8,8 +8,8 @@ class ApplicationLoader {
   private $action;
   private $urlvalues;
 
-  public function __construct($urlvalues) {
-    $this->urlvalues = $urlvalues;
+  public function __construct( $urlvalues ) {
+    $this->urlvalues = ( isset( $urlvalues ) == false ) ? $urlvalues : null;
     if ($this->urlvalues['controller'] == "") {
       $this->controller = 'LlamaKisses\Controllers\PagesController';
     } else {

@@ -17,8 +17,8 @@ $twigLoader = new Twig_Loader_Filesystem( 'src/Paymill/LlamaKisses/Views/' );
 $twig = new Twig_Environment( $twigLoader, array( 'cache' => 'cache', 'debug' => true ) );
 
 //create the controller and execute the action
-$appLoader = new ApplicationLoader($_GET);
-$controller = $appLoader->CreateController($twig);
+$appLoader = new ApplicationLoader( $_GET );
+$controller = $appLoader->CreateController( $twig );
 if( is_string( $controller ) == false ) {
   $controller->ExecuteAction();
 } else {

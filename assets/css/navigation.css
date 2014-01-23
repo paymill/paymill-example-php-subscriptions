@@ -110,3 +110,9 @@
 .container .row .form-control {
   margin-bottom: 10px
 }
+
+.jumbotron {
+  padding-top: 48px;
+  padding-bottom: 0px !important;
+  border-bottom: 1px #918f8f solid;
+}

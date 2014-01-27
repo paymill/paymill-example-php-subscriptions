@@ -3,6 +3,7 @@
 namespace LlamaKisses\Controllers;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use LlamaKisses\Models\Subscription;
 
 class SubscriptionsController extends ApplicationController {
@@ -12,6 +13,7 @@ class SubscriptionsController extends ApplicationController {
   public function __construct( $action, $urlvalues, $twig ) {
     parent::__construct( $action, $urlvalues, $twig );
     $this->log = new Logger( 'LLAMA_KISSES::SubscriptionsController' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
   }
 
   protected function create() {

@@ -3,6 +3,7 @@
 namespace LlamaKisses\Controllers;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 abstract class ApplicationController {
 
@@ -18,6 +19,7 @@ abstract class ApplicationController {
     $this->urlvalues = $urlvalues;
     $this->twig = $twig;
     $this->log = new Logger( 'LLAMA_KISSES::ApplicationController' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
   }
 
   public function ExecuteAction() {

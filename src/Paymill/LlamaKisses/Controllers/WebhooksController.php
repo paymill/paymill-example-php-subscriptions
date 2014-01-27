@@ -3,6 +3,7 @@
 namespace LlamaKisses\Controllers;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class WebhooksController extends ApplicationController {
 
@@ -11,6 +12,7 @@ class WebhooksController extends ApplicationController {
   public function __construct( $action, $urlvalues, $twig ) {
     parent::__construct( $action, $urlvalues, $twig );
     $this->log = new Logger( 'LLAMA_KISSES::WebhooksController' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
   }
 
   public function receive() {

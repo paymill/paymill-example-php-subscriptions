@@ -3,6 +3,7 @@
 namespace LlamaKisses\Models;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Subscription extends Base {
 
@@ -16,6 +17,8 @@ class Subscription extends Base {
   public function __construct( $paymentId = null ) {
     parent::__construct();
     $this->log = new Logger( 'LLAMA_KISSES::Subscription' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
+
     if( $paymentId != null ) {
       $user = User::findById( $_SESSION['current_user'] );
       $this->client = $user->getPaymillId();

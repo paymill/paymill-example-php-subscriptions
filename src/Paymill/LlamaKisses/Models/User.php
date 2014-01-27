@@ -3,6 +3,7 @@
 namespace LlamaKisses\Models;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Paymill\Models\Request\Client;
 
 class User extends Base {
@@ -58,6 +59,7 @@ class User extends Base {
   public function __construct( $params = null ) {
     parent::__construct();
     $this->log = new Logger( 'LLAMA_KISSES::User' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
     if( $params != null ) {
       if( $params['password'] !== $params['password_confirmation'] ) {
         $this->errors['password'] = "Password didn't match";

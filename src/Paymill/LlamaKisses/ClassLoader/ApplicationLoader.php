@@ -3,6 +3,7 @@
 namespace LlamaKisses\ClassLoader;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class ApplicationLoader {
 
@@ -14,6 +15,7 @@ class ApplicationLoader {
 
   public function __construct( $urlvalues ) {
     $this->log = new Logger( 'LLAMA_KISSES::ApplicationLoader' );
+    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
     $this->log->addInfo( 'Try to execute controller: '.$urlvalues['controller'].' with action: '.$urlvalues['action'] );
     $this->urlvalues = $urlvalues;
     if( $this->urlvalues['controller'] == "" ) {

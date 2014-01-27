@@ -20,7 +20,7 @@ class WebhooksController extends ApplicationController {
     $type = $response['event']['event_type'];
     $resource = $response['event']['event_resource'];
 
-    $this->log->addInfo( "PAYMILL event " . $eventType . " received" );
+    $this->log->addInfo( "PAYMILL event " . $type . " received" );
 
     switch( $type ) {
       case 'subscription.deleted':

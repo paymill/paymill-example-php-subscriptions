@@ -44,4 +44,10 @@ $(document).ready(function() {
   }
 
   $( '.llama-tooltip' ).tooltip('hide');
+
+  $( 'a[rel="external"]').click( function() {
+    window.open( $( this ).attr( 'href' ), '_blank');
+    return false;
+  } );
+
 });

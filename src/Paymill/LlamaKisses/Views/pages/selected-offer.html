@@ -31,12 +31,12 @@
   {% if offer_id == 4 %}
     {% include 'partials/im-in-haven.html' %}
   {% endif %}
-  <div class="col-xs-12 col-md-3 well well-sm" style="padding-left: 0px;">
+  <div class="col-xs-12 col-md-3 well well-sm" style="padding-bottom: 0px; padding-left: 0px;">
     <form accept-charset="UTF-8" action="index.php?controller=cards&action=create" class="require-validation" id="card-tds-form" method="POST">
       <div class='form-row'>
         <div class='col-xs-12 form-group required'>
           <label class='control-label'>Card holder</label>
-          <input class='form-control card-holdername' size='4' type='text' value='John Rambo'>
+          <input class='form-control card-holdername' size='4' type='text' placeholder='John Rambo'>
         </div>
       </div>
       <div class='form-row'>
@@ -48,26 +48,26 @@
       <div class='form-row'>
         <div class='col-xs-4 form-group cvc required'>
           <label class='control-label'>CVC</label>
-          <input autocomplete='off' class='form-control card-cvc' placeholder='ex. 311' size='4' type='text' value='123  '>
+          <input autocomplete='off' class='form-control card-cvc' placeholder='311' size='4' type='text'>
         </div>
         <div class='col-xs-4 form-group expiration required'>
           <label class='control-label'>Expiration</label>
-          <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text' value='4'>
+          <input class='form-control card-expiry-month' placeholder='MM' size='2' type='text'>
         </div>
         <div class='col-xs-4 form-group expiration required'>
           <label class='control-label'> </label>
-          <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text' value='2015'>
+          <input class='form-control card-expiry-year' placeholder='YYYY' size='4' type='text'>
         </div>
       </div>
       <input class="card-amount" type="hidden" name='amount' size="4" value="200" />
       <input class="card-currency" type="hidden" name='currency' size="4" value="EUR" />
       <div class='form-row'>
-        <div class='col-md-12 form-group'>
+        <div class='col-md-12 form-group' style="margin-bottom: 12px;">
           <button class='form-control btn btn-primary submit-button' type='submit'>Add »</button>
         </div>
       </div>
     </form>
-    <div class='col-xs-12 form-group'>
+    <div class='col-xs-12 form-group' style="margin-bottom: 0px;">
       <div class='errors panel panel-danger hide'>
         <div class='errors panel-heading'>
 

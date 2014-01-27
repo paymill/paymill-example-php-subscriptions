@@ -25,7 +25,7 @@ abstract class ApplicationController {
   }
 
   protected function ReturnView( $model = array() ) {
-    $current_user = isset( $_SESSION['current_user'] ) ? $_SESSION['current_user'] : null;
+    $current_user = $_SESSION['current_user'];
     $this->log->addInfo( "Current user: " . $current_user );
     $model['current_user'] = $current_user;
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting( E_ALL ^ E_NOTICE );
 
 require_once 'vendor/autoload.php';
 require_once 'scripts/seeds.php';
@@ -18,7 +19,6 @@ $twig = new Twig_Environment( $twigLoader, array( 'cache' => 'cache', 'debug' =>
 
 // create the controller and execute the action
 $appLoader = new ApplicationLoader( $_GET );
-$log->addInfo( 'Try to execute controller: '.$_GET['controller'].' with action: '.$_GET['action'] );
 $controller = $appLoader->CreateController( $twig );
 if( is_string( $controller ) == false ) {
   $controller->ExecuteAction();

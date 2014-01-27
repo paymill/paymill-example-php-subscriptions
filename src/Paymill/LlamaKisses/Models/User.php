@@ -31,7 +31,7 @@ class User extends Base {
         $user->paymillId = $row['paymill_id'];
         $user->offerId = $row['offer_id'];
         $user->findAllCards();
-        $user->findAllSubscriptions();
+        $user->findSubscription();
     }
     return $user;
   }
@@ -48,7 +48,7 @@ class User extends Base {
         $user->paymillId = $row['paymill_id'];
         $user->offerId = $row['offer_id'];
         $user->findAllCards();
-        $user->findAllSubscriptions();
+        $user->findSubscription();
     } else {
       $user->errors['email'] = "Email or password did not match";
     }
@@ -141,20 +141,14 @@ class User extends Base {
     }
   }
 
-  private function findAllSubscriptions() {
-    $client = new Client();
-    $client->setId( $this->paymillId );
-    $response = $this->request->getOne( $client );
-
-    if( $response->getSubscription() != null ) {
-      foreach( $response->getSubscription() as $subscription ) {
-        if( $subscription->getCanceledAt() == null && $subscription->getPayment() != null ) {
-          $this->subscription = new Subscription();
-          $this->subscription->setOffer( $subscription->getOffer()->getId() );
-          $this->subscription->setPayment( $subscription->getPayment()->getId() );
-          $this->subscription->setPaymillId( $subscription->getId() );
-        }
-      }
+  private function findSubscription() {
+    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.active = true" );
+    if( mysqli_num_rows( $result ) == 1 ) {
+        $row = mysqli_fetch_array( $result );
+        $this->subscription = new Subscription();
+        $this->subscription->setOffer( $this->offerId );
+        $this->subscription->setPayment( $row['payment_id'] );
+        $this->subscription->setPaymillId( $row['paymill_id'] );
     }
   }
 

@@ -11,8 +11,11 @@ class Subscription extends Base {
   private $payment;
   private $paymillId;
 
+  private $log;
+
   public function __construct( $paymentId = null ) {
     parent::__construct();
+    $this->log = new Logger( 'LLAMA_KISSES::Subscription' );
     if( $paymentId != null ) {
       $user = User::findById( $_SESSION['current_user'] );
       $this->client = $user->getPaymillId();
@@ -23,28 +26,19 @@ class Subscription extends Base {
 
   public function create() {
     $subscription = new \Paymill\Models\Request\Subscription();
-    $subscription->setFilter( array( "offer" => $this->offer ) );
-    $response = $this->request->getAll( $subscription );
-
-    // if( $response != null ) {
-    //   foreach( $response as $sub ) {
-    //     if( $sub['client']['id'] == $this->client ) {
-    //       $subscription = new \Paymill\Models\Request\Subscription();
-    //       $subscription->setId( $sub['id'] )
-    //                    ->setOffer( $this->offer )
-    //                    ->setPayment( $this->payment );
-    //     $this->request->update( $subscription );
-    //     return;
-    //     }
-    //   }
-    // }
     $subscription->setClient( $this->client )
                  ->setOffer( $this->offer )
                  ->setCancelAtPeriodEnd( true )
                  ->setPayment( $this->payment );
-
     $response = $this->request->create( $subscription );
+
     $this->paymillId = $response->getId();
+    if( $this->paymillId != null ) {
+      $sql =  "INSERT INTO `subscriptions`( `active`, `next_capture_at`, `canceled_at`, `paymill_id`, `payment_id`, `user_id` ) " .
+              "VALUES( true, " . $response->getNextCaptureAt() . ", null, '$this->paymillId', '$this->payment', " . $_SESSION['current_user'] . " )";
+      mysqli_query( $this->db, $sql );
+    }
+    mysqli_close( $this->db );
   }
 
   public function update( $subscription_id ) {
@@ -52,12 +46,18 @@ class Subscription extends Base {
     $subscription->setId( $subscription_id )
                  ->setPayment( $this->payment );
     $this->request->update( $subscription );
+
+    mysqli_query( $this->db, "UPDATE subscriptions s SET payment_id = '$this->payment' WHERE s.paymill_id LIKE '$subscription_id'" );
+    mysqli_close( $this->db );
   }
 
   public function delete( $subscription_id ) {
     $subscription = new \Paymill\Models\Request\Subscription();
     $subscription->setId( $subscription_id );
-    $this->request->delete( $subscription );
+    $response = $this->request->delete( $subscription );
+
+    mysqli_query($this->db, "UPDATE subscriptions s SET s.canceled_at = " . $response->getCanceledAt() . " WHERE s.paymill_id LIKE '$subscription_id'");
+    mysqli_close($this->db);
   }
 
   public function setOffer( $offer ) {

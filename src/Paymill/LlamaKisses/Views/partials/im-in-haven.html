@@ -4,7 +4,11 @@
       <h3 class="panel-title">I'm in Haven</h3>
     </div>
     <div class="panel-body">
-      <div class="the-price">
+      {% if offer_id is not null %}
+        <div class="the-price" style="padding: 52px 20px;">
+      {% else %}
+        <div class="the-price">
+      {% endif %}
         <h1>99€<span class="subscript">/mo</span></h1>
         <small>1 month FREE trial</small>
         <div>

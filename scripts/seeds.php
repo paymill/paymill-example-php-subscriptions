@@ -24,6 +24,7 @@ function create_and_seed_offers( $log, $link ) {
   $offers = "CREATE TABLE IF NOT EXISTS `offers` (
     `id` int(11) unsigned NOT NULL auto_increment,
     `name` varchar(255) NOT NULL default '',
+    `amount` int(11) NOT NULL default -1,
     `paymill_id` varchar(255) NOT NULL default '',
     PRIMARY KEY  (`id`) )
     ENGINE=MyISAM  DEFAULT CHARSET=utf8";
@@ -31,10 +32,10 @@ function create_and_seed_offers( $log, $link ) {
   $log->addInfo( "Table offers successfully created" );
 
   $log->addInfo( "Seeding offers..." );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Never Been Kissed', 'offer_aae1832ae93c6ec79763' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Can\'t Get Enought', 'offer_f2a81826ccd0e282e36f' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Pure Bliss', 'offer_4b75aa84668420b20ade' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'I\'m in Haven', 'offer_5a5cd3505e726778cbf1' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, amount, paymill_id ) VALUES ( 'Never Been Kissed', 500, 'offer_aae1832ae93c6ec79763' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, amount, paymill_id ) VALUES ( 'Can\'t Get Enought', 1200, 'offer_f2a81826ccd0e282e36f' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, amount, paymill_id ) VALUES ( 'Pure Bliss', 4900, 'offer_4b75aa84668420b20ade' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, amount, paymill_id ) VALUES ( 'I\'m in Haven', 9900, 'offer_5a5cd3505e726778cbf1' );" );
 }
 
 function create_users( $log, $link ) {

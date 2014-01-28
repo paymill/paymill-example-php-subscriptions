@@ -86,7 +86,7 @@ class User extends Base {
   }
 
   public function create() {
-    $client = new Client();
+    $client = new \Paymill\Models\Request\Client();
     $client->setEmail( $this->email );
     $id = $this->request->create( $client )->getId();
     $this->log->addInfo( $id );
@@ -102,6 +102,10 @@ class User extends Base {
 
   public function getOfferId() {
     return $this->offerId;
+  }
+
+  public function getCards() {
+    return $this->cards;
   }
 
   public function getPaymillId() {
@@ -144,13 +148,14 @@ class User extends Base {
   }
 
   private function findSubscription() {
-    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.active = true" );
+    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.canceled_at IS NULL" );
     if( mysqli_num_rows( $result ) == 1 ) {
         $row = mysqli_fetch_array( $result );
         $this->subscription = new Subscription();
         $this->subscription->setOffer( $this->offerId );
         $this->subscription->setPayment( $row['payment_id'] );
         $this->subscription->setPaymillId( $row['paymill_id'] );
+        $this->subscription->setActive( $row['active'] );
     }
   }
 

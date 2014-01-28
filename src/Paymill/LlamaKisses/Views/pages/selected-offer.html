@@ -1,10 +1,17 @@
 <div class="container" style="padding: 0px 5px 0px;">
   {% if subscription is not null %}
     {% if card.paymillId != subscription.payment %}
-      <div class="alert alert-success">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        Successfully subscribed
-      </div>
+      {% if subscription.active == true %}
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          Successfully subscribed
+        </div>
+      {% else %}
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          Successfully subscribed, but you need to update your credit card.
+        </div>
+      {% endif %}
     {% endif %}
   {% else %}
     <div class="alert alert-warning">
@@ -69,9 +76,7 @@
     </form>
     <div class='col-xs-12 form-group' style="margin-bottom: 0px;">
       <div class='errors panel panel-danger hide'>
-        <div class='errors panel-heading'>
-
-        </div>
+        <div class='errors panel-heading'></div>
       </div>
     </div>
   </div>

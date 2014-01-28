@@ -6,6 +6,7 @@ class Offer extends Base {
 
   private $id;
   private $name;
+  private $amount;
   private $paymillId;
 
   public static function findById( $id ) {
@@ -15,6 +16,7 @@ class Offer extends Base {
         $row = mysqli_fetch_array( $result );
         $offer->id = $row['id'];
         $offer->name = $row['name'];
+        $offer->amount = $row['amount'];
         $offer->paymillId = $row['paymill_id'];
     }
     return $offer;
@@ -26,6 +28,14 @@ class Offer extends Base {
 
   public function getPaymillId() {
     return $this->paymillId;
+  }
+
+  public function getAmount() {
+    return $this->amount;
+  }
+
+  public function getName() {
+    return $this->name;
   }
 
 }

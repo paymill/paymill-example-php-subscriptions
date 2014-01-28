@@ -31,10 +31,10 @@ function create_and_seed_offers( $log, $link ) {
   $log->addInfo( "Table offers successfully created" );
 
   $log->addInfo( "Seeding offers..." );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Never Been Kissed', 'offer_ccdcd25134e2d81b30f5' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Can\'t Get Enought', 'offer_31a9633a20d86fb406c7' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Pure Bliss', 'offer_732aba03cfe85908fc7d' );" );
-  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'I\'m in Haven', 'offer_ccdcd25134e2d81b30f5' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Never Been Kissed', 'offer_aae1832ae93c6ec79763' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Can\'t Get Enought', 'offer_f2a81826ccd0e282e36f' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'Pure Bliss', 'offer_4b75aa84668420b20ade' );" );
+  mysqli_query( $link, "INSERT INTO offers ( name, paymill_id ) VALUES ( 'I\'m in Haven', 'offer_5a5cd3505e726778cbf1' );" );
 }
 
 function create_users( $log, $link ) {

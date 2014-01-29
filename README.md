@@ -2,31 +2,31 @@
 
 PAYMILL is a full-stack payment solution with very reasonable pricing and is easy to setup. See how to add it to a PHP application here.
 
-If you ever need to process credit card payments or recurring payments aka. subscriptions through your PHP applications you should take a look at PAYMILL. PAYMILL is a payment gateway that is easy to set up and which is very developer friendly. It only charges fees on a per-transaction basis and these are very reasonable. There are no monthly fees or other hidden costs.
+If you ever need to process credit card payments or recurring payments aka. subscriptions through your PHP applications, you should take a look at PAYMILL. PAYMILL is a payment gateway that is easy to set up and which is very developer friendly. It only charges fees on a per-transaction basis and these are very reasonable. There are no monthly fees or other hidden costs.
 
 ### What does the application
 
-In this tutorial we’ll use PAYMILL to add recurring payments to a PHP application. The application we’ll use is a site that sells Llama Kisses. ;) The customer can subscribe to plan and each month he will be charged by PAYMILL to get his llama kisses.
+In this tutorial we’ll use PAYMILL to add recurring payments to a PHP application. The application we’ll use is a site that sells Llama Kisses ;) The customer can subscribe to а plan and each month he will be charged by PAYMILL to get his llama kisses.
 
 ![landing page](./docs-assets/01.pages_index.png)
 
-There are four different plans and users can sign up for any one of them to create a subscription. When the user licks on one of the **Sign Up** buttons, he will be redirected to the sign up page.
+There are four different plans and users can sign up for any one of them to create a subscription. When the user clicks on one of the **Sign Up** buttons, he will be redirected to the sign up page.
 
 ![sign up page](./docs-assets/02.users_init.png)
 
-After the user register himself he will be asked to provide one or more credit cards.
+After the user register himself, he will be asked to provide one or more credit cards.
 
 ![enter credit card](./docs-assets/03.cards_create.png)
 
-Now when the user have at least one credit card he can select one of them by pressing the credit card icon
+Now, when the user has at least one credit card, he can select one of them by pressing the credit card icon
 
 ![create subscription](./docs-assets/04.subscriptions_create.png)
 
-Or remove existing credit card if this credit card is not currently used by the subscription.
+Or remove existing credit card, if this credit card is not currently used by the subscription.
 
 ![remove credit card](./docs-assets/05.cards_destroy.png)
 
-Of course the user can update his subscription by change his credit card. This is an important case and this action will be required when the user have insufficient funds on his card or the credit card has expired.
+Of course the user can update his subscription by changing his credit card. This is an important case and this action will be required when the user has insufficient funds on his card or the credit card has expired.
 
 ![update subscription](./docs-assets/06.subscriptions_update.png)
 
@@ -36,15 +36,15 @@ Last but not least the user can unsubscribe. At this point it is important to me
 
 ### Application internals
 
-Lets start at the beginning. As every application developer you don't want to write everything on your own. Nowadays for each programing language there are a lot of tools and frameworks, which we can use to speed up the development process and make our lives easier.
+Lets start at the beginning. As every application developer you don't want to write everything on your own. Nowadays for each programming language there are a lot of tools and frameworks, which we can use to speed up the development process and make our lives easier.
 
-*Llama Kisses* Project use for dependencies management, the standard tool for PHP developers, namely **composer**. Dependencies are described in a JSON format and should exist in the root folder of your project in file called **composer.json**. In this example we use will four dependencies:
+for dependencies management *Llama Kisses* Project use the standard tool for PHP developers, namely **composer**. Dependencies are described in a JSON format and should exist in the root folder of your project in file called **composer.json**. In this example we will use four dependencies:
 * [monolog](https://github.com/Seldaek/monolog) - logging library
 * [twig](http://twig.sensiolabs.org/) - template engine for PHP
-* [bootstrap](https://github.com/twbs/bootstrap) - CSS & JavaScrip framework for faster and easier web development
+* [bootstrap](https://github.com/twbs/bootstrap) - CSS & JavaScript framework for faster and easier web development
 * [paymill](https://github.com/paymill/paymill-php) - PHP library, which simplifies development against PAYMILL API and hides communication infrastructure.
 
-Our source files are located under **src** folder. Now with this in mind you should easily understand the format of the composer.json file.
+Our source files are located under **src** folder. Now, with this in mind, you should easily understand the format of the composer.json file.
 
 ```json
 {
@@ -63,16 +63,16 @@ Our source files are located under **src** folder. Now with this in mind you sho
     }
 }
 ```
-As you can see there are also some meta information, which we can be passed to composer.json like name and version.
+As you can see there is also some meta information, which can be stored in composer.json like name and version.
 
 When you run in your terminal **composer install** (I assume that you have already downloaded the composer). In your project root you should see new file: **composer.lock** and new **vendor folder**. In composer.lock you can see detailed description of each dependency. In vendor folder you can find each requested library together with its dependencies if some.
 
 The application implements custom MVC like dispatcher. Every request goes to **index.php**. The script in this file loads all libraries, instantiate the view rendering engine and based on the GET parameters: *controller* and *action* creates new instance of the controller and calls its requested method.
 
 In application's database we store 3 tables:
-* offers: Contains following columns name, amount and PAYMILL Offer identifier
-* users: Contains following columns email, password, name, offer_id and PAYMILL Client identifier
-* subscriptions: Contains following columns active, next_capture_at, canceled_at, user_id, PAYMILL Payment identifier and PAYMILL Subscription identifier
+* offers: Contains columns name, amount and PAYMILL Offer identifier
+* users: Contains columns email, password, name, offer_id and PAYMILL Client identifier
+* subscriptions: Contains columns active, next_capture_at, canceled_at, user_id, PAYMILL Payment identifier and PAYMILL Subscription identifier
 
 For dealing with the database and the external dependency to PAYMILL we have four models:
 * Offer: contains information from local database and PAYMILL server
@@ -112,7 +112,7 @@ abstract class Base {
 ```
 
 **Handling the clients**
-One the user register to llama-kisses app, we will store his email, name, password and selected offer to our local database. This behavior is very typical for every web application. But in this case we also want to create a PAYMILL Client, so that we can associate and store the user's credit card date on PAYMILL's server. This is done via user's create method. First we create a PAYMILL Client and the store the user into the local database with PAYMILL's reference to it.
+Once the user register to llama-kisses app, we will store his email, name, password and selected offer to our local database. This behavior is very typical for every web application. But in this case we also want to create a PAYMILL Client, so that we can associate and store the user's credit card data on PAYMILL's server. This is done via user's create method. First we create a PAYMILL Client and the store the user into the local database with PAYMILL's reference to it.
 
 ```php
 public function create() {
@@ -126,7 +126,7 @@ public function create() {
   mysqli_close( $this->db );
 }
 ```
-Don't forger that we have initialize the PAYMILL request object in the Base class. Each class which will communicate with PAYMILL have to extend the Base class. That way $this->request is available.
+Don't forget that we have initialize the PAYMILL request object in the Base class. Each class, which will communicate with PAYMILL, has to extend the Base class. That way $this->request is available.
 
 ```php
 class User extends Base {
@@ -135,9 +135,9 @@ PAYMILL may throw an exception, but since this is not the scope of this tutorial
 
 **Adding PAYMILL’s JavaScript and The API Key**
 
-When a user submits their credit card information in a form the credit card information goes directly to PAYMILL’s server and not to our application at all. This makes it a lot easier to get PCI compliance. If we look at the example form on PAYMILL’s page we’ll see that none of its fields have a name attribute. This means that when the form is submitted these fields aren’t passed to our application’s server. Instead they’ll read by some JavaScript code that is triggered when a user submits the form.
+When a user submits their credit card information in a form, the credit card information goes directly to PAYMILL’s server and not to our application at all. This makes it a lot easier to get PCI compliance. If we look at the example form on PAYMILL’s page, we’ll see that none of its fields have a name attribute. This means that when the form is submitted these fields aren’t passed to our application’s server. Instead they’ll be submitted via the PAYMILL's JavaScript.
 
-To use PAYMILL in our application we need to include a JavaScript file from PAYMILL’s server. Then we set our publishable key and add some JavaScript that will fire when the form containing the credit card fields is submitted. This JavaScript will generate a token based on the credit card information from the form.
+To use PAYMILL in our application we need to include a JavaScript file from PAYMILL’s server. Then we set our publishable key and add some JavaScript that will fire, when the form containing the credit card fields is submitted. This JavaScript will generate a token based on the credit card information from the form.
 
 We’ll add PAYMILL’s JavaScript file in our src/Paymill/LlamaKisses/Views/application/footer.html file. It needs to be placed before the application’s own JavaScript file, right after the div.
 
@@ -153,7 +153,7 @@ We’ll add PAYMILL’s JavaScript file in our src/Paymill/LlamaKisses/Views/app
 <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 ```
 
-Next lets explain the credit card fields in the subscription wizard. The form contains a hidden fields that holds the current and the amount. Other input fields won't be submitted to our server because they don't have the name attribute.
+Next let's explain the credit card fields in the subscription wizard. The form contains a hidden fields that holds the currency and the amount. Other input fields won't be submitted to our server, because they don't have the name attribute.
 
 ```html
 <form accept-charset="UTF-8" action="index.php?controller=cards&action=create" class="require-validation" id="card-tds-form" method="POST">
@@ -192,7 +192,7 @@ Next lets explain the credit card fields in the subscription wizard. The form co
   </div>
 </form>
 ```
-Next lets take a look at the JavaScript that fires when the form is submitted. This script will submit the credit card information to PAYMILL and submit the token that it receives back from PAYMILL through the form.
+Next let's take a look at the JavaScript that fires, when the form is submitted. This script will submit the credit card information to PAYMILL and submit the token that it receives back from PAYMILL through the form.
 
 ```javascript
 var PAYMILL_PUBLIC_KEY = 'YOUR_PUBLIC_API_KEY';
@@ -240,11 +240,11 @@ $(document).ready(function() {
     console.log(res);
   }
 ```
-This code should only run after the page’s DOM has loaded and so it’s all wrapped in the **$(document).ready()** function. The script listens for sumbit event on form with id **card-tds-form**. When the user submit this form the script forward this request to our server but to the PAYMILL server by calling the method createToken and collection its parameters from the form. After createToken() function is done it will call the callback function PaymillResponseHandler(). If there is some problems with the user input the error variable will be true and this error will be displayed to the customer. If there is no error the scripts appends a hidden input field, which contains the generated token and submits the form to our server.
+This code should only run after the page’s DOM has loaded and so it’s all wrapped in the **$(document).ready()** function. The script listens for sumbit event on form with id **card-tds-form**. When the user submit this form, the script forwards this request not to our server, but to the PAYMILL server by calling the method createToken and collecting its parameters from the form. After createToken() function is done, it will call the callback function PaymillResponseHandler(). If there are some problems with the user input, the error variable will be true and this error will be displayed to the customer. If there is no error, the scripts appends a hidden input field, which contains the generated token and submits the form to our server.
 
 **Handling the credit cards**
 
-On llama-kisses server we get the encoded representation of the credit card as token. This token is valid for 5 minutes and can be used only one time. For the time being we wan't charge the customer, because our offer have trail period of 30 days. This means that the token will be expired when we want to make the transaction. To deal with it PAYMILL offer to save the client's credit card as Payment. We create the Payment object in Card's constructor
+On llama-kisses server we get the encoded representation of the credit card as token. This token is valid for 5 minutes and can be used only one time. For the time being we won't charge the customer, because our offer has trail period of 30 days. This means that the token will be expired, when we want to make the transaction. To deal with it PAYMILL offer to save the client's credit card as Payment. We create the Payment object in Card's constructor
 
 ```php
 public function __construct( $params = null ) {
@@ -282,11 +282,11 @@ public function verify( $amount, $currency ) {
   $this->request->delete( $preAuth );
 }
 ```
-Here it is very important to note that the amount and the currency should be the same as this used in the JavaScript call. We need to make the validation in order to activate the payment object, which can be used for future transactions.
+Here it's very important to note that the amount and the currency should be the same as this used in the JavaScript call. We need to make the validation in order to activate the payment object, which can be used for future transactions.
 
 **Dealing with subscriptions**
 
-Now comes the interesting part. The customer has an account in our local database. He also is stored on PAYMILL's server with one or more credit cards. To create a subscription we use again the PAYMILL PHP wrapper. Creating subscription looks like this snippet from Subscription's create method:
+Now comes the interesting part. The customer has an account in our local database. This acount is also stored on PAYMILL's server with one or more credit cards. To create a subscription we use again the PAYMILL PHP wrapper. Creating subscription looks like this snippet from Subscription's create method:
 
 ```php
 $subscription = new \Paymill\Models\Request\Subscription();
@@ -296,7 +296,7 @@ $subscription->setClient( $this->client )
              ->setPayment( $this->payment );
 $response = $this->request->create( $subscription );
 ```
-We set PAYMILL's clientId, offerId and paymentId and call the lib to do the work. As you can see in our previous steps we create a clientId by user's registration. We create a paymentId when the user enter his credit card details and we have the offerId by seeding the database. With this information we create our subscription. If the subscription has no trial period a transaction will be created immediately after user subscribes. With trial period PAYMILL will wait until the next capture date to trigger the transaction.
+We set PAYMILL's clientId, offerId and paymentId and call the lib to do the work. As you can see in our previous steps we create a clientId by user's registration. We create a paymentId when the user enters his credit card details and we have the offerId by seeding the database. With this information we create our subscription. If the subscription has no trial period, a transaction will be created immediately after the user subscribes. With trial period PAYMILL will wait until the next capture date to trigger the transaction.
 
 Updating a transaction make sense when the user has expired credit card and he wants to provide a new one. The update is executed in Subscription's update method
 

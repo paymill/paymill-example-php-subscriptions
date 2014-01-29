@@ -1,4 +1,4 @@
-# Recurent Billing with PAYMILL
+# Recurrent Billing with PAYMILL
 
 PAYMILL is a full-stack payment solution with very reasonable pricing and is easy to setup. See how to add it to a PHP application here.
 

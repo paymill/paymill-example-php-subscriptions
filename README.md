@@ -38,7 +38,7 @@ Last but not least the user can unsubscribe. At this point it is important to me
 
 Lets start at the beginning. As every application developer you don't want to write everything on your own. Nowadays for each programming language there are a lot of tools and frameworks, which we can use to speed up the development process and make our lives easier.
 
-for dependencies management *Llama Kisses* Project use the standard tool for PHP developers, namely **composer**. Dependencies are described in a JSON format and should exist in the root folder of your project in file called **composer.json**. In this example we will use four dependencies:
+For dependencies management *Llama Kisses* Project use the standard tool for PHP developers, namely **composer**. Dependencies are described in a JSON format and should exist in the root folder of your project in file called **composer.json**. In this example we will use four dependencies:
 * [monolog](https://github.com/Seldaek/monolog) - logging library
 * [twig](http://twig.sensiolabs.org/) - template engine for PHP
 * [bootstrap](https://github.com/twbs/bootstrap) - CSS & JavaScript framework for faster and easier web development
@@ -46,7 +46,7 @@ for dependencies management *Llama Kisses* Project use the standard tool for PHP
 
 Our source files are located under **src** folder. Now, with this in mind, you should easily understand the format of the composer.json file.
 
-```json
+```javascript
 {
     "name": "paymill/llama-kisses",
     "version": "1.0.0",

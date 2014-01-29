@@ -28,6 +28,19 @@ class WebhooksController extends ApplicationController {
     $this->log->addInfo( "PAYMILL event " . $type . " received" );
 
     switch( $type ) {
+      case 'subscription.succeeded':
+        $this->log->addInfo( "subscription.succeeded" );
+        $subscriptionId = $resource['subscription']['id'];
+        $this->log->addInfo( "Subscription Id: '" . $subscriptionId . "'" );
+
+        $select = "SELECT * FROM subscriptions s WHERE s.paymill_id LIKE '" . $subscriptionId . "'";
+        $result = mysqli_query( $this->db, $select );
+        if( mysqli_num_rows( $result ) == 1 ) {
+          $row = mysqli_fetch_array( $result );
+          $update = "UPDATE subscriptions s SET next_capture_at = '" . $resource['subscription']['next_capture_at'] . "' WHERE s.paymill_id LIKE '" . $subscriptionId . "'";
+          mysqli_query( $this->db, $update );
+        }
+        break;
       case 'subscription.updated':
         $this->log->addInfo( "subscription.updated" );
         $subscriptionId = $resource['id'];

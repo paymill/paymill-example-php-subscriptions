@@ -2,10 +2,17 @@
   {% if subscription is not null %}
     {% if card.paymillId != subscription.payment %}
       {% if subscription.active == true %}
-        <div class="alert alert-success">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          Successfully subscribed
-        </div>
+        {% if subscription.canceledAt is null %}
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            Successfully subscribed
+          </div>
+        {% else %}
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            You have cancel the subscription, now you use the rest of its period. No change of credit card is possible
+          </div>
+        {% endif %}
       {% else %}
         <div class="alert alert-danger">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -89,13 +96,25 @@
             <div class="col-xs-3 col-md-3 text-center">
               {% if subscription is not null %}
                 {% if card.paymillId == subscription.payment %}
-                <a class="llama-tooltip" href="index.php?controller=subscriptions&action=delete&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="click to unsubscribe">
-                  <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
-                </a>
+                  {% if subscription.active == true %}
+                    {% if subscription.canceledAt is not null %}
+                      <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                    {% else %}
+                      <a class="llama-tooltip" href="index.php?controller=subscriptions&action=delete&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="click to unsubscribe">
+                        <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                      </a>
+                    {% endif %}
+                  {% endif %}
                 {% else %}
-                <a class="llama-tooltip" href="index.php?controller=subscriptions&action=update&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="change credit card">
-                  <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
-                </a>
+                  {% if subscription.active == true %}
+                    {% if subscription.canceledAt is not null %}
+                      <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                    {% else %}
+                      <a class="llama-tooltip" href="index.php?controller=subscriptions&action=update&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="change credit card">
+                        <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                      </a>
+                    {% endif %}
+                  {% endif %}
                 {% endif %}
               {% else %}
               <a class="llama-tooltip" href="index.php?controller=subscriptions&action=create&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="click to subscribe">

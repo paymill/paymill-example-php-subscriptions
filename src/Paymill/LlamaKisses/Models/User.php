@@ -148,14 +148,21 @@ class User extends Base {
   }
 
   private function findSubscription() {
-    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.canceled_at IS NULL" );
+    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.active = true" );
     if( mysqli_num_rows( $result ) == 1 ) {
-        $row = mysqli_fetch_array( $result );
+      $row = mysqli_fetch_array( $result );
+      if( $row['canceled_at'] == null || $row['next_capture_at'] > time() ) {
         $this->subscription = new Subscription();
         $this->subscription->setOffer( $this->offerId );
         $this->subscription->setPayment( $row['payment_id'] );
         $this->subscription->setPaymillId( $row['paymill_id'] );
         $this->subscription->setActive( $row['active'] );
+        $this->subscription->setCanceledAt( $row['canceled_at'] );
+      } else {
+        $update = "UPDATE subscriptions s SET active = false WHERE s.id = " . $row['id'];
+        $this->log->addInfo( $update );
+        mysqli_query( $this->db, $update );
+      }
     }
   }
 

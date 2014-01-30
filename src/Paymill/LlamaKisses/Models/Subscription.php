@@ -12,6 +12,7 @@ class Subscription extends Base {
   private $payment;
   private $paymillId;
   private $active;
+  private $canceledAt;
 
   private $log;
 
@@ -79,7 +80,7 @@ class Subscription extends Base {
     $subscription->setId( $subscription_id );
     $response = $this->request->delete( $subscription );
 
-    $sql = "UPDATE subscriptions s SET s.canceled_at = " . $response->getCanceledAt() . ", active = false WHERE s.paymill_id LIKE '$subscription_id'";
+    $sql = "UPDATE subscriptions s SET s.canceled_at = " . $response->getCanceledAt() . " WHERE s.paymill_id LIKE '$subscription_id'";
     mysqli_query( $this->db, $sql );
     mysqli_close( $this->db );
   }
@@ -114,6 +115,14 @@ class Subscription extends Base {
 
   public function setPaymillId( $paymillId ) {
     $this->paymillId = $paymillId;
+  }
+
+  public function getCanceledAt() {
+    return $this->canceledAt;
+  }
+
+  public function setCanceledAt( $canceledAt ) {
+    $this->canceledAt = $canceledAt;
   }
 
 }

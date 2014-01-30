@@ -148,8 +148,9 @@ class User extends Base {
   }
 
   private function findSubscription() {
-    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . " AND s.active = true" );
-    if( mysqli_num_rows( $result ) == 1 ) {
+    // We are interested in the last subscription for the given offer
+    $result = mysqli_query( $this->db, "SELECT * FROM `subscriptions` s WHERE s.user_id = " . $this->id . "  ORDER BY id DESC");
+    if( mysqli_num_rows( $result ) > 1 ) {
       $row = mysqli_fetch_array( $result );
       if( $row['canceled_at'] == null || $row['next_capture_at'] > time() ) {
         $this->subscription = new Subscription();

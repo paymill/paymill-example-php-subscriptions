@@ -104,6 +104,10 @@
                         <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
                       </a>
                     {% endif %}
+                  {% else %}
+                    <a class="llama-tooltip" href="index.php?controller=subscriptions&action=delete&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="click to unsubscribe">
+                      <img src="assets/images/paymill.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                    </a>
                   {% endif %}
                 {% else %}
                   {% if subscription.active == true %}
@@ -114,12 +118,16 @@
                         <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
                       </a>
                     {% endif %}
+                  {% else %}
+                    <a class="llama-tooltip" href="index.php?controller=subscriptions&action=update&payment_id={{ card.paymillId }}&subscription_id={{subscription.paymillId}}" data-toggle="tooltip" title="change credit card">
+                      <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                    </a>
                   {% endif %}
                 {% endif %}
               {% else %}
-              <a class="llama-tooltip" href="index.php?controller=subscriptions&action=create&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="click to subscribe">
-                <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
-              </a>
+                <a class="llama-tooltip" href="index.php?controller=subscriptions&action=create&payment_id={{ card.paymillId }}" data-toggle="tooltip" title="click to subscribe">
+                  <img src="assets/images/credit_card.png" alt="bootsnipp" class="img-rounded img-responsive" />
+                </a>
               {% endif %}
             </div>
             <div class="col-xs-9 col-md-9 section-box">

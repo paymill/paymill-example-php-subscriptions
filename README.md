@@ -344,15 +344,13 @@ Here it's very important to note that the amount and the currency should be the 
 
 **Dealing with subscriptions**
 
-Now comes the interesting part. The customer has an account in our local database. This acount is also stored on PAYMILL's server with one or more credit cards. To create a subscription we use again the PAYMILL PHP wrapper. Creating subscription looks like this snippet from Subscription's create method:
+Now comes the interesting part. The customer has an account in our local database. This account is also stored on PAYMILL's server with one or more credit cards. To create a subscription we use again the PAYMILL PHP wrapper. Creating subscription looks like this snippet from Subscription's create method:
 
 ```php
 $subscription = new \Paymill\Models\Request\Subscription();
-$subscription->setClient( $this->client )
-             ->setOffer( $this->offer )
-             ->setCancelAtPeriodEnd( true )
+$subscription->setId( $subscription_id )
              ->setPayment( $this->payment );
-$response = $this->request->create( $subscription );
+$this->request->update( $subscription );
 ```
 We set PAYMILL's clientId, offerId and paymentId and call the lib to do the work. As you can see in our previous steps we create a clientId by user's registration. We create a paymentId when the user enters his credit card details and we have the offerId by seeding the database. With this information we create our subscription. If the subscription has no trial period, a transaction will be created immediately after the user subscribes. With trial period PAYMILL will wait until the next capture date to trigger the transaction.
 

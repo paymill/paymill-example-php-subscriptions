@@ -44,7 +44,7 @@ class Subscription extends Base {
       $transaction = new \Paymill\Models\Request\Transaction();
       $transaction->setAmount( $offer->getAmount() )
                   ->setCurrency( 'EUR' )
-                  ->setPayment( current( $user->getCards() )->getPaymillId() )
+                  ->setPayment( $this->payment )
                   ->setDescription( 'User resubscribed' );
 
       $response = $this->request->create( $transaction );

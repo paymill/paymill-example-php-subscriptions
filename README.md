@@ -6,7 +6,7 @@ If you ever need to process credit card payments or recurring payments aka. subs
 
 ### What does the application
 
-In this tutorial we’ll use PAYMILL to add recurring payments to a PHP application. The application, which we’ll use is a site that sells Llama Kisses ;) The customer can subscribe to а plan and each month he will be charged by PAYMILL to get his llama kisses.
+In this tutorial we’ll use PAYMILL to add recurring payments to a PHP application. The application, which we’ll use is a site that sells Llama Kisses ;) The customer can subscribe to а plan and each month he will be charged by PAYMILL to get his llama kisses. You can see a live demo under https://subscription.demo.paymill.com
 
 ![landing page](./docs-assets/01.pages_index.png)
 
@@ -69,6 +69,21 @@ Our source files are located under **src** folder. Now, with this in mind, you s
 As you can see there is also some meta information, which can be stored in composer.json like name and version.
 
 When you run in your terminal **composer install** (I assume that you have already downloaded the composer), in your project root you should see new file: **composer.lock** and new **vendor folder**. In composer.lock you can see detailed description of each dependency. In vendor folder you can find each requested library together with its dependencies if some.
+
+**Running the app on your local machine**
+
+If you want to install and the application on your local machine, you need to execute the following steps:
+* clone the project: **git clone git@github.com:paymill/paymill-example-php-subscriptions.git**
+* navigate to project's root folder: **cd paymill-example-php-subscriptions**
+* download the dependencies: **composer install**
+* create a PAYMILL account from: https://app.paymill.com/de-de/auth/register
+* after login get private and public PAYMILL keys from: **My Account > Settings > API Keys**
+* replace PAYMILL_PUBLIC_KEY in [paymill.js](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/assets/js/paymill.js#L1) with your public key.
+* replace PAYMILL_PRIVATE_KEY in [Base.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/src/Paymill/LlamaKisses/Models/Base.php#L15) and in [WebhooksController.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/src/Paymill/LlamaKisses/Controllers/WebhooksController.php#L65) with your private key.
+* create four offers from https://app.paymill.com/en-gb#!/offers and paste their ids in [seeds.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/scripts/seeds.php#L35) you can take name and amount from the seed file. Set trial period to one day, to have faster respose.
+* repace MYSQL_PASSWORD and MYSQL_USERNAME in [seeds.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/scripts/seeds.php#L4), [Base.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/src/Paymill/LlamaKisses/Models/Base.php#L13) and in [WebhooksController.php](https://github.com/paymill/paymill-example-php-subscriptions/blob/master/src/Paymill/LlamaKisses/Controllers/WebhooksController.php#L19) with your MySQL credentials.
+* create two folders **logs** and **cache** in the project's root and chacnge the folders permission to 777
+* If you have an Appache2 configured server and you have cloned this project under the appache's document root folder, you will be able to access it under [http://localhost/paymill-example-php-subscriptions](http://localhost/paymill-example-php-subscriptions). Note that the seeds file will create a database, its tables and will populate them with valid data for you.
 
 **Application routing**
 

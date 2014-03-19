@@ -31,7 +31,6 @@ abstract class ApplicationController {
     $this->log->addInfo( "Current user: " . $current_user );
     $model['current_user'] = $current_user;
 
-    $yield = null;
     if( isset( $_GET['controller'] ) == false )
       $yield = $this->twig->render( "pages".'/'.$this->action.'.html', $model );
     else

@@ -20,8 +20,8 @@ class Card extends Base {
 
   public function __construct( $params = null ) {
     parent::__construct();
-    $this->log = new Logger( 'LLAMA_KISSES::Card' );
-    $this->log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
+    $log = new Logger( 'LLAMA_KISSES::Card' );
+    $log->pushHandler( new StreamHandler( 'logs/llama_ranch.log', Logger::INFO ) );
     if( $params != null ) {
       $user = User::findById( $_SESSION['current_user'] );
       $this->payment = new Payment();

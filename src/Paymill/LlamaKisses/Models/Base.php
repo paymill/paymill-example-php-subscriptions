@@ -10,8 +10,7 @@ abstract class Base {
   protected $request;
 
   public function __construct() {
-    $this->db = mysqli_connect( "127.0.0.1", "root", "root" );
-    mysqli_select_db( $this->db, 'llama-kisses' );
+    $this->db = mysqli_connect( "127.0.0.1", "root", "root", "llama-kisses" );
     $this->request = new Request( "97d4da6541622b4aa8fdde764c817646" );
   }
 

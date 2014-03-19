@@ -13,7 +13,7 @@ class Offer extends Base {
     $offer = new Offer();
     $result = mysqli_query( $offer->db, "SELECT * FROM `offers` o WHERE o.id LIKE '$id'" );
     if( mysqli_num_rows( $result ) == 1 ) {
-        $row = mysqli_fetch_array( $result );
+        $row = mysqli_fetch_array( $result, MYSQLI_ASSOC );
         $offer->id = $row['id'];
         $offer->name = $row['name'];
         $offer->amount = $row['amount'];
